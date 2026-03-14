@@ -1,0 +1,148 @@
+Now I'll build a beautiful interactive API docs page:
+REST API for the Mentora mentorship platform. Test with Hoppscotch (hoppscotch.io) or any HTTP client.
+Here's a complete guide to testing every endpoint in Hoppscotch (hoppscotch.io):
+
+Setup First
+Base URL: http://localhost:3000
+Save your token after login — you'll paste it into every protected request as:
+Header: Authorization
+Value:  Bearer <paste_token_here>
+
+1. Sign Up as a Parent
+Method:  POST
+URL:     http://localhost:3000/auth/signup
+Headers: Content-Type: application/json
+Body (JSON):
+{
+  "name": "Sarah Parent",
+  "email": "sarah@example.com",
+  "password": "password123",
+  "role": "parent"
+}
+✅ Expected: 201 — copy the token from the response
+
+2. Sign Up as a Mentor
+Method:  POST
+URL:     http://localhost:3000/auth/signup
+Headers: Content-Type: application/json
+Body (JSON):
+{
+  "name": "John Mentor",
+  "email": "john@example.com",
+  "password": "password123",
+  "role": "mentor"
+}
+✅ Expected: 201 — copy the mentor's token too
+
+3. Login
+Method:  POST
+URL:     http://localhost:3000/auth/login
+Headers: Content-Type: application/json
+Body (JSON):
+{
+  "email": "sarah@example.com",
+  "password": "password123"
+}
+✅ Expected: 200 with a fresh token
+
+4. Get My Profile
+Method:  GET
+URL:     http://localhost:3000/auth/me
+Headers: Authorization: Bearer <parent_token>
+✅ Expected: 200 with your user object
+
+5. Create a Student (use parent token)
+Method:  POST
+URL:     http://localhost:3000/students
+Headers: Content-Type: application/json
+         Authorization: Bearer <parent_token>
+Body (JSON):
+{
+  "name": "Tommy",
+  "age": 10,
+  "grade": "5th"
+}
+✅ Expected: 201 — copy the student _id
+
+6. Get All Students (use parent token)
+Method:  GET
+URL:     http://localhost:3000/students
+Headers: Authorization: Bearer <parent_token>
+✅ Expected: 200 with list of your students
+
+7. Create a Lesson (use mentor token)
+Method:  POST
+URL:     http://localhost:3000/lessons
+Headers: Content-Type: application/json
+         Authorization: Bearer <mentor_token>
+Body (JSON):
+{
+  "title": "Intro to Algebra",
+  "description": "Learn the basics of variables and equations"
+}
+✅ Expected: 201 — copy the lesson _id
+
+8. Get All Lessons
+Method:  GET
+URL:     http://localhost:3000/lessons
+Headers: Authorization: Bearer <parent_token>
+✅ Expected: 200 with all lessons
+
+9. Book a Student into a Lesson (use parent token)
+Method:  POST
+URL:     http://localhost:3000/bookings
+Headers: Content-Type: application/json
+         Authorization: Bearer <parent_token>
+Body (JSON):
+{
+  "studentId": "<student _id from step 5>",
+  "lessonId":  "<lesson _id from step 7>"
+}
+✅ Expected: 201 with booking details
+
+10. Get All Bookings (use parent token)
+Method:  GET
+URL:     http://localhost:3000/bookings
+Headers: Authorization: Bearer <parent_token>
+✅ Expected: 200 with your bookings
+
+11. Create a Session (use mentor token)
+Method:  POST
+URL:     http://localhost:3000/sessions
+Headers: Content-Type: application/json
+         Authorization: Bearer <mentor_token>
+Body (JSON):
+{
+  "lessonId": "<lesson _id from step 7>",
+  "date": "2025-09-01T10:00:00Z",
+  "topic": "Chapter 1 — Variables",
+  "summary": "Students learned what variables are."
+}
+✅ Expected: 201 — copy the session _id
+
+12. Get Sessions for a Lesson
+Method:  GET
+URL:     http://localhost:3000/lessons/<lesson_id>/sessions
+Headers: Authorization: Bearer <parent_token>
+✅ Expected: 200 with list of sessions
+
+13. Join a Session (use parent token — bonus)
+Method:  POST
+URL:     http://localhost:3000/sessions/<session_id>/join
+Headers: Content-Type: application/json
+         Authorization: Bearer <parent_token>
+Body (JSON):
+{
+  "studentId": "<student _id from step 5>"
+}
+✅ Expected: 200 — student added to session attendees
+
+14. LLM Summarize
+Method:  POST
+URL:     http://localhost:3000/llm/summarize
+Headers: Content-Type: application/json
+         Authorization: Bearer <parent_token>
+Body (JSON):
+{
+  "text": "Photosynthesis is the process by which green plants use sunlight, water and carbon dioxide to produce oxygen and energy in the form of sugar. It occurs mainly in leaves, in the chloroplasts, using the green pigment chlorophyll. The light reactions occur in the thylakoid membranes while the Calvin cycle takes place in the stroma."
+}
