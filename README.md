@@ -1,4 +1,4 @@
-(https://github.com/ttanu03/mentora-backend/wiki)-API Testing
+(https://github.com/ttanu03/mentora-backend/wiki) - API Docs
 
 # 🎓 Mentora Backend
 
